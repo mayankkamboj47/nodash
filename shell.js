@@ -1,10 +1,12 @@
 /**
  * 
  * ENOENT etc. should be communicated properly to the child process
- * 
- * add fg and Ctrl + Z
- * 
+ *  
  * bug : echo "hi there" will get called as ['echo', '"hi', 'there"']
+ * 
+ * we're not really a shell yet, of the kind that vim and stuff expect
+ * 
+ * On windows, only the custom commands work
  */
 
 const {spawn} = require('node:child_process');
@@ -33,7 +35,6 @@ process.stdin.on('data', (r)=>{
     if(r.every(x=>x==='')) return prompt();
     try {
         r = preprocess(r);
-        console.log(r);
     }
     catch(e){
         console.log(e);

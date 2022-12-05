@@ -8,10 +8,22 @@ Execute `shell.js` using `node`. The shell will start.
 
 ## Current pitfalls : 
 
-The code structure can be improved lots ! We are using a lot of globals, callbacks. We could perhaps
-think of reorganising the entire shell _AFTER_ coding, since we don't know what will work and what
-won't right now, and also because the shell program itself is expected to remain pretty small and
-easily reorganisable. 
+SIGSTOP can't be listened on. Node.js doesn't support it. 
+From  https://nodejs.org/api/process.html
+> 'SIGSTOP' cannot have a listener installed.
+I've not implemented SIGSTOP therefore. See planForFgBg.md to get a sense of how I would have done it, incase SIGSTOP was supported.
 
-I sense we're using some kind of "hacks", instead of doing things the way they're supposed to be done
-when one creates a shell. The reason for this is, that if we are changing directories using cd, executing commands should _by default_ be in the current directory, instead of us having to force it to be that way using code. 
+It's _not really_ a shell. For example, it doesn't support full fledged shell interface that
+editors like vim expect. If you try running vim, it will complain that output is not going to a shell.
+
+Bugs are written in comments at the start of shell.js
+
+On windows, you can't use native commands you can typically use in powershell. 
+
+# License
+
+## Citations
+
+A huge amount of help was taken from node.js documentation, mostly https://nodejs.org/api/process.html and https://nodejs.org/api/child_process.html, but also the tutorial and some other pages.
+I also used stack overflow to reduce reading time from documentation
+No other source from the internet was used. 
